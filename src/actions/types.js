@@ -1,0 +1,1 @@
+export default GET_SALONS = 'GET_SALONS'
