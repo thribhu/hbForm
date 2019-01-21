@@ -6,7 +6,7 @@ const api =  {
     getAllSalons(){
         let url = API_URL + 'Salons/GetSalons';
         return fetch(url)
-            .then((res) => res.json())
+            
     },
     //Get only active salons
     getOnlyActiveSalons() {
