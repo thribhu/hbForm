@@ -1,7 +1,8 @@
 import {_types} from './types'
-import {getSalons} from '../api'
 import { Actions } from 'react-native-router-flux';
-const { GET_SALONS_FAIL, GET_SALONS_SUCCESS, GET_SALONS} = _types
+import api from '../api_info';
+
+const { GET_SALONS_FAIL, GET_SALONS_SUCCESS, GET_SALONS, GET_AREA_DETAILS, SELECTED_AREA} = _types
 
 
 export const getAllSalons = () => {
@@ -28,4 +29,26 @@ export const getSalonsFail = (dispatch, err) => {
         type: GET_SALONS_FAIL, 
         payload: err
     })
+}
+
+export const getAreaDetail = () => {
+    return (dispatch) => {
+        api.getAreaId()
+        .then((data) => data.json())
+        .then((jsonData) => {
+            
+            
+            dispatch({
+                type: GET_AREA_DETAILS,
+                payload: jsonData
+            })
+        })
+    }
+}
+
+export const areaSelected = (value) => {
+    return {
+        type: SELECTED_AREA,
+        payload: value
+    }
 }

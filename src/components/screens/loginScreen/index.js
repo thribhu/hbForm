@@ -75,3 +75,57 @@ const mapStateToProps = ({auth}) => {
     return {email, password, isLoading}
 }
 export default connect(mapStateToProps, {emailChanged, passwordChanged, loginUser, buttonPress})(LoginScreen);
+
+// import React, {Component} from 'react'
+// import {Input, Container, Body, Button, Text, Card, CardItem} from 'native-base';
+// import { Formik } from 'formik';
+
+
+// class LoginScreen extends Component {
+//     _intialValues= {
+//         email: 'thribhuvan',
+//         pass: ''
+//     }
+//     render() {
+//         return(
+//             <Formik
+//                 initialValues ={this._intialValues}
+//                 onSubmit = {values => console.log(values.pass)}
+//                 >
+//                 {
+//                     formikProps => (
+//                         <Card>
+//                             <CardItem>
+//                             <Input 
+//                                     placeholder='email@example.com'
+//                                     onChangeText={formikProps.handleChange('email')}
+//                                     onBlur= {formikProps.handleBlur('email')}
+//                                     value= {formikProps.values.email}
+//                                 />
+//                             </CardItem> 
+//                             <CardItem>
+//                             <Input 
+//                                  placeholder='password'
+//                                  secureTextEntry
+//                                  onChangeText = {formikProps.handleChange('pass')}
+//                                  onBlur={formikProps.handleBlur('pass')}
+//                                  value={formikProps.values.pass}
+//                                  />
+//                             </CardItem>
+//                             <CardItem>
+//                             <Button 
+//                                  transparent
+//                                  onPress={formikProps.handleSubmit}
+//                                  >
+//                                      <Text>Submit</Text>
+//                                  </Button>
+//                             </CardItem> 
+//                         </Card>
+//                     )
+//                 }
+
+//             </Formik>
+//         )
+//     }
+// }
+// export default LoginScreen;

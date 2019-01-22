@@ -7,5 +7,8 @@ export const _types = {
    BUTTON_PRESS: 'button_press',
    GET_SALONS: 'get_salons',
    GET_SALONS_SUCCESS: 'get_salon_success',
-   GET_SALONS_FAIL: 'get_Salons_fail'
+   GET_SALONS_FAIL: 'get_Salons_fail',
+   SALON_CREATE: 'salon_create',
+   GET_AREA_DETAILS: 'get_area_details',
+   SELECTED_AREA: 'selected_Area',
 }

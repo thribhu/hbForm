@@ -1,20 +1,28 @@
 import React, { Component } from "react";
-import { Container, Body, Text,List, ListItem, Left, Right, Card, CardItem, Title, Button, Icon} from 'native-base';
+import { Container, Body, 
+    Text,List, ListItem, Left, 
+    Right, Card, CardItem, Title, 
+    Button, Icon, Input, Picker,Item
+} from 'native-base';
+
 import { Image, FlatList, View } from 'react-native';
 import {connect} from 'react-redux';
-import {getAllSalons} from '../../../actions/salon';
+import {getAllSalons, getAreaDetail, areaSelected} from '../../../actions/salon';
 import {Actions} from 'react-native-router-flux';
 import _ from 'lodash';
+import api from '../../../api_info'
 class SalonHomeScreen extends Component {
     componentWillMount() {
-        console.log(this.props.user)
         this.props.getAllSalons()
-        
+        this.props.getAreaDetail()
     }
     onButtonPress() {
         console.log('press');
         
         Actions.salonList({salons: this.props.salonsData})
+    }
+    areaChanges(value) {
+        this.areaSelected(value)
     }
     renderSalons({item}) {
         return (
@@ -32,12 +40,48 @@ class SalonHomeScreen extends Component {
     }
     render()
      {
+        areas = this.props.onlyAreaName;
         return (
             <Container>
                 <View style={{margin: 20}}>
                 <Title style={{ color: 'purple', fontSize: 30, fontWeight: '300', paddingHorizontal: 20}}>Salons with us</Title>
                 </View>
-                
+                <View>
+                    <CardItem>
+                    <Text>Select Area</Text>
+                    <Picker
+                        style={{borderColor: 'black', borderWidth: 1}}
+                        onValueChange={(value) => this.props.areaSelected(value)}
+                        iosHeader = 'Select Area'
+                        mode = 'dropdown'
+                        selectedValue= {this.props.selectedArea}
+                        >
+                        {_.map(areas, (area) => {
+                            
+                            return (
+                                <Item label={area.name} value={area.id} />
+                            )
+                        })}
+
+                    </Picker>
+                    {/* <Picker
+                        
+                        iosHeader="Select one"
+                        mode="dropdown"
+                        selectedValue='Cats'
+                        >
+                        <Item label="Cats" value="key0" />
+                        <Item label="Dogs" value="key1" />
+                        <Item label="Birds" value="key2" />
+                        <Item label="Elephants" value="key3" />
+                   </Picker> */}
+                    <Right>
+                    <Icon name='ios-navigate' />
+                    </Right>
+                    
+                    </CardItem>
+                    
+                </View>
                 <View>
                 <View style={{borderWidth: 0.15, borderColor: '#d8d8d8'}}>
                 <FlatList
@@ -48,7 +92,7 @@ class SalonHomeScreen extends Component {
                     renderItem={({item}) => 
                     this.renderSalons({item})
                     }
-                    keyExtractor = {(item, id) => item.id}
+                    keyExtractor={(item, index) => item.key}
                 />
                 </View>
                 <View style={{flexDirection:'row',justifyContent: 'flex-end', paddingTop: 10}}>
@@ -65,10 +109,17 @@ class SalonHomeScreen extends Component {
 }
 
 const mapStateToProps =({salons}) => {
-    const {data} = salons;
+    const {data, areaData, selectedArea} = salons;
+    
+    // console.log(areaData)
     const salonsData = _.map(data, (val, id) => {
         return {...val, id};
     })
-    return {salonsData, data}
+    const onlyAreaName = _.map(areaData, (val) => {
+        return {name: val.AreaName, id: val.AreaId}
+    })
+    console.log(onlyAreaName);
+    
+    return {salonsData, areaData, selectedArea, onlyAreaName}
 }
-export default connect(mapStateToProps, {getAllSalons})(SalonHomeScreen);
+export default connect(mapStateToProps, {getAllSalons, getAreaDetail, areaSelected})(SalonHomeScreen);

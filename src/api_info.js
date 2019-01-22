@@ -17,12 +17,11 @@ const api =  {
         let url = API_URL + 'Area/GetData'
         return fetch(url)
     },
-    getNearBySalons() {
-        
-    },
+   
     addNewSalon(BusinessName, Address, Name, PostalCode, MemberTypeId, Note, PhoneNumber, Email, Password, BusinessType, CityId, AreaId, CountryId, ManageYourBookings, ReasonForSigningUp, Website, GoogleMaps, Image, ImagePath, CreatedBy, FrontendStatus, Noofchairs, Popularity, ClassId){
         let url = API_URL + 'Salons/InsertSalons?BusinessName={BusinessName}&Address={Address}&Name={Name}&PostalCode={PostalCode}&MemberTypeId={MemberTypeId}&Note={Note}&PhoneNumber={PhoneNumber}&Email={Email}&Password={Password}&BusinessType={BusinessType}&CityId={CityId}&AreaId={AreaId}&CountryId={CountryId}&ManageYourBookings={ManageYourBookings}&ReasonForSigningUp={ReasonForSigningUp}&Website={Website}&GoogleMaps={GoogleMaps}&Image={Image}&ImagePath={ImagePath}&CreatedBy={CreatedBy}&FrontendStatus={FrontendStatus}&Noofchairs={Noofchairs}&Popularity={Popularity}&ClassId={ClassId}'
-    }
+    },
+    
 }
 
 module.exports = api
