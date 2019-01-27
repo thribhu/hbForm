@@ -1,32 +1,82 @@
 import React, { Component } from 'react';
-import {Container, Content, Card, CardItem, Body, Text, List, ListItem, Header, Icon, Input, Item, Button} from 'native-base';
+import {Container, Content, Card, CardItem, Body, Text, List, ListItem, Header, Icon, Input, Item, Button, Right} from 'native-base';
 import { Image, FlatList, View } from 'react-native';
+import { Actions} from 'react-native-router-flux';
+import api from '../../../api_info';
+import _ from 'lodash'
 
 class salonList extends Component {
-    componentWillMount() {
-        console.log('happy')
-        console.log( this.props.salons)
-        
-    }
+//    async  componentWillMount() {
+//        let _$data = {}
+//      $data = await _.map(this.props.salons, (val) => { 
+//             api.getAreaById(val.AreaId)
+//             .then(data => data.json())
+//             .then(jsonData => {
+//                    _.map(jsonData, (i) => {
+//                        _data = {areaName: i.AreaName}
+//                         a = _.assign(val, _data)
+//                         return _.assign(_$data, a)
+
+//                    })
+                   
+//                    }
+//                 )  
+//             })
+            
+//            console.log(_$data) 
+       
+//         }
+componentWillMount() {
+    let data = {}
+    _.map(this.props.salons, (val) => {
+        _.assign(data, val)
+    }) 
+    console.log(data) 
+}
+    
     renderSalons({item}) {
         return (
             
-                        <Card>
+                        <Card transparent>
                             <CardItem>
-                                <Image source={{uri: item.ImagePath}} style={{ height: 80, width: 120 }}/>
+                                <Image source={{uri: item.ImagePath}} style={{ height: 150, width: '100%', borderRadius: 12 }}/>
                             </CardItem>
                             <CardItem>
-                                <Text style={{fontWeight: '300', fontSize: 12, color: 'black', paddingHorizontal: 10}}>{item.BusinessName.toUpperCase()}</Text>
+                                <Text style={{fontWeight: '500', fontSize: 15, color: 'purple', paddingHorizontal: 10}}>{item.BusinessName.toUpperCase()}</Text>
                             </CardItem>
+                            <View style={{flexDirection: 'row'}}>
+                            <View style={{flex: 1}}>
+                            <CardItem>
+                                <Text style={{fontWeight: '400', fontSize: 15, paddingHorizontal: 10}}>
+                                Rating: <Text style={{fontWeight: '400', fontSize: 15, color: 'purple', paddingHorizontal: 10}}>{item.Rating}</Text>
+                                </Text>
+                            </CardItem>
+                            </View>
+                            <View style={{flex: 1}}>
+                            <CardItem>
+                                <Text style={{fontWeight: '400', fontSize: 15, paddingHorizontal: 10}}>
+                                Popularity: <Text style={{fontWeight: '400', fontSize: 15, color: 'purple', paddingHorizontal: 10}}>{item.Popularity}</Text>
+                                </Text>
+                            </CardItem>
+                            </View>
+                            <View style={{flex: 1}}>
+                            <CardItem>
+                                <Text style={{fontWeight: '400', fontSize: 15, paddingHorizontal: 10}}>
+                                Limit: <Text style={{fontWeight: '400', fontSize: 15, color: 'purple', paddingHorizontal: 10}}>{item.Limit}</Text>
+                                </Text>
+                            </CardItem>
+                            </View>
+                            </View>
                         </Card>    
                     
         )
     }
+    
     render()
     {
         return(
-            <Container>
-                     <Header searchBar rounded>
+        <View style={{backgroundColor: 'white'}}>
+        <Header searchBar rounded>
           <Item>
             <Icon name="ios-search" />
             <Input placeholder="Salons or Places" />
@@ -37,12 +87,17 @@ class salonList extends Component {
           </Button>
         </Header>
                     <View>
+                    <Button transparent onPress={Actions.addSalon} style={{justifyContent: 'flex-end'}}>
+                        <Text>
+                            Add New Salon 
+                        </Text>
+                    </Button>
                     <View>
                         
                     </View>
                     <FlatList
+                    style={{flex:1}}
                     data={this.props.salons}
-                    
                     showsVerticalScrollIndicator={false}
                     style={{flexWrap: 'wrap'}}
                     renderItem={({item}) => 
@@ -50,14 +105,9 @@ class salonList extends Component {
                     }
                     keyExtractor = {(item, id) => item.id}
                 />
-                {/* <FlatList
-                    data={this.props.salons}
-                    renderItem={({item}) => <Text>{item.BusinessName}</Text>}
-                /> */}
-                        
+
                     </View>
-                
-            </Container>
+                    </View>
         )
     }
 }

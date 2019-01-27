@@ -3,6 +3,8 @@ import LoginScreen from './components/screens/loginScreen'
 import { Scene, Router } from 'react-native-router-flux';
 import SalonHomeScreen from './components/screens/salonHomeScreen'
 import salonList from './components/screens/salonList.js';
+import AddSalon from './components/screens/addSalon';
+import AddSalonExtended from './components/screens/addSalonsExtended'
 const RouterComponent = () => {
     return(
         <Router>
@@ -13,6 +15,8 @@ const RouterComponent = () => {
                 <Scene key="main">
                     <Scene key='salonHome' component={SalonHomeScreen} />
                     <Scene key='salonList' component={salonList} hideNavBar/>
+                    <Scene key='addSalon' component={AddSalon} title="Add Salon"/>
+                    <Scene key='addSalonExtended' component={AddSalonExtended} title="Hang on"/>
                 </Scene>
             </Scene>
         </Router>

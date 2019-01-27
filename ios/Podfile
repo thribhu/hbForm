@@ -21,6 +21,7 @@ target 'hbForm' do
       'RCTText',
       'RCTVibration',
       'RCTWebSocket',
+      
     ]
   
     # React Native third party dependencies podspecs
