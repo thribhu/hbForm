@@ -2,7 +2,8 @@ import React from 'react';
 import LoginScreen from './components/screens/loginScreen'
 import { Scene, Router } from 'react-native-router-flux';
 import SalonHomeScreen from './components/screens/salonHomeScreen'
-import salonList from './components/screens/salonList.js';
+// import salonList from './components/screens/salonList';
+import salonList from './components/screens/salonList'
 import AddSalon from './components/screens/addSalon';
 import AddSalonExtended from './components/screens/addSalonsExtended'
 const RouterComponent = () => {

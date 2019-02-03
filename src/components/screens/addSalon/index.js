@@ -7,27 +7,28 @@ import { getAreaDetail} from '../../../actions/salon';
 import _ from 'lodash';
 import { newSalonData, getAreaByCityId, getClassData, getBusinessCategory, getCity } from '../../../actions/salonCreateForm'
 import { Actions} from 'react-native-router-flux';
+import * as yup from 'yup';
 const formValues = {
     BusinessName: '',
     Email: '',
     Password: '',
-    city: '',
     postalCode: '',
     no_Of_chairs: '',
     popularity: '',
     description: '',
-    businessType: '',
     name: '',
-    class: '',
-    area: '',
     phoneNumber: '',
-    address: ''
+    Address: ''
 }
+const validationSchema = yup.object().shape({
+    BusinessName: yup.string().required(),
+    Email: yup.string().email().required()
+})
 
 class AddSalon extends Component {
     async componentWillMount() {
         await this.props.getClassData()
-        await this.props.getAreaByCityId(13)
+        // await this.props.getAreaByCityId(13)
         await this.props.getBusinessCategory()
         await this.props.getCity()
     }
@@ -47,6 +48,7 @@ class AddSalon extends Component {
                     <View>
                         <Formik
                         initialValues={formValues}
+                        handleReset
                         onSubmit={(values, { setSubmitting }) => {
                             // console.log(values)
 
@@ -54,6 +56,7 @@ class AddSalon extends Component {
                             Actions.addSalonExtended
                             }
                             }
+                        validationSchema = {validationSchema}
                         >
                             {
                                 formikProps => (
@@ -162,9 +165,9 @@ class AddSalon extends Component {
                                                 <Label>Address</Label>
                                                 <Input 
                                                    autoCorrect = {false}                                                   
-                                                    onChangeText = {formikProps.handleChange('address')}
+                                                    onChangeText = {formikProps.handleChange('Address')}
                                                   //  onBlur={formikProps.handleBlur('email')}
-                                                    value={formikProps.values.address}
+                                                    value={formikProps.values.Address}
                                                 />
                                             </Item>
                                         </CardItem>
@@ -202,8 +205,9 @@ class AddSalon extends Component {
                                             <View style={{justifyContent: 'space-around'}}>
                                                 <Button 
                                                     transparent
-                                                    onPress ={Actions.addSalonExtended}
-                                                    
+                                                    onPress ={
+                                                        Actions.addSalonExtended
+                                                        }
                                                     >
                                                 <Text>next</Text>
                                                 </Button>

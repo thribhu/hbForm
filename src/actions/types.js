@@ -18,5 +18,13 @@ export const _types = {
    SALON_DATA_ADDED: 'salon_data_added',
    OP_CITIES: 'operating_cities',
    OP_AREA_BY_CITY_ID: 'operatingAreaByCityId',
-   GET_BUSINESS_CATEGORY: 'businessCategory'
+   GET_BUSINESS_CATEGORY: 'businessCategory',
+   GOT_SALON_AREA: 'got_Salon_area',
+   GOT_SALON_CATEGORY: 'got_Salon_category',
+   GOT_SALON_CITY: 'got_salon_city',
+   GOT_SALON_CLASS: 'got_salon_class',
+   NEW_SALON_SAVE: 'new_salon_added',
+   SALON_ADD_FAIL: 'salonAddFail',
+   SALON_ADDED_SUCCESS: 'salonAddedSuccess',
+   SALON_ADD_BUTTON_PRESSED: 'salonButtonPress'
 }

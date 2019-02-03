@@ -1,42 +1,22 @@
 import React, { Component } from 'react';
 import {Container, Content, Card, CardItem, Body, Text, List, ListItem, Header, Icon, Input, Item, Button, Right} from 'native-base';
-import { Image, FlatList, View } from 'react-native';
+import { Image, FlatList, View, ScrollView } from 'react-native';
 import { Actions} from 'react-native-router-flux';
 import api from '../../../api_info';
 import _ from 'lodash'
 
 class salonList extends Component {
-//    async  componentWillMount() {
-//        let _$data = {}
-//      $data = await _.map(this.props.salons, (val) => { 
-//             api.getAreaById(val.AreaId)
-//             .then(data => data.json())
-//             .then(jsonData => {
-//                    _.map(jsonData, (i) => {
-//                        _data = {areaName: i.AreaName}
-//                         a = _.assign(val, _data)
-//                         return _.assign(_$data, a)
-
-//                    })
-                   
-//                    }
-//                 )  
-//             })
-            
-//            console.log(_$data) 
        
-//         }
-componentWillMount() {
-    let data = {}
-    _.map(this.props.salons, (val) => {
-        _.assign(data, val)
-    }) 
-    console.log(data) 
-}
+    async componentWillMount() {
+            let data = {}
+            await _.map(this.props.salons, (val) => {
+                _.assign(data, val)
+            }) 
+        }
     
     renderSalons({item}) {
         return (
-            
+                
                         <Card transparent>
                             <CardItem>
                                 <Image source={{uri: item.ImagePath}} style={{ height: 150, width: '100%', borderRadius: 12 }}/>
@@ -75,6 +55,7 @@ componentWillMount() {
     render()
     {
         return(
+            
         <View style={{backgroundColor: 'white'}}>
         <Header searchBar rounded>
           <Item>
@@ -92,9 +73,9 @@ componentWillMount() {
                             Add New Salon 
                         </Text>
                     </Button>
+                    
+                    <ScrollView>
                     <View>
-                        
-                    </View>
                     <FlatList
                     style={{flex:1}}
                     data={this.props.salons}
@@ -105,9 +86,11 @@ componentWillMount() {
                     }
                     keyExtractor = {(item, id) => item.id}
                 />
-
+                    </View>
+                    </ScrollView>
                     </View>
                     </View>
+                    
         )
     }
 }
