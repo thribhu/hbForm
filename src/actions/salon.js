@@ -7,8 +7,7 @@ const { GET_SALONS_FAIL, GET_SALONS_SUCCESS, GET_SALONS, GET_AREA_DETAILS, SELEC
 
 export const getAllSalons = () => {
     return(dispatch) => {
-        const url = 'http://hogarbarber.plesk.europcheapflights.com/api/Salons/GetSalons'
-        fetch(url)
+        api.getAllSalons()
         .then((data) => data.json())
         .then((responseJson) => {
             //console.log(responseJson);

@@ -1,5 +1,5 @@
 import {_types} from './types';
-const { LOGIN_USER, LOGIN_SUCCESS, LOGIN_FAIL, BUTTON_PRESS} = _types;
+const { LOGIN_USER, LOGIN_SUCCESS, SHOW_PASSWORD,LOGIN_FAIL, BUTTON_PRESS} = _types;
 import firebase from 'firebase';
 import {Actions} from 'react-native-router-flux'
 export const emailChanged = (value) => {
@@ -14,7 +14,12 @@ export const passwordChanged = (value) => {
             payload: value
         }
 }
-
+export const showPassword = () =>{
+    return {
+        type: 'SHOW_PASSWORD'
+        
+    }
+}
 export const loginUser = (email, password) => {
     return (dispatch) => {
         firebase.auth().signInWithEmailAndPassword(email, password)
@@ -28,7 +33,7 @@ export const buttonPress = () => {
 }
 export const  loginSuccess = (dispatch,user) => {
     dispatch({type: LOGIN_SUCCESS, payload: user})
-    Actions.main()
+    Actions.salonHome()
 }
 
 export const loginFail = (dispatch, error) => {

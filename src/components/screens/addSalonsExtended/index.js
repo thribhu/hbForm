@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import { Container, props, Card, Picker, Form, CardItem, Button, Text, Right, Spinner} from 'native-base';
+import { Container, props, Card, Picker, Form, CardItem, Button, Text, Right, Spinner, CheckBox, ListItem, Body} from 'native-base';
 import {connect} from 'react-redux'
 import {Actions} from 'react-native-router-flux';
-import {View} from 'react-native'
+import {View, Alert} from 'react-native'
 import {
   getCity, 
   getBusinessCategory, 
@@ -13,9 +13,30 @@ import {
   selectSalonClass,
   selectSalonCategory,
   addingSalonToDb,
-  addSalonButtonPress
+  addSalonButtonPress,
+  salonTypeSelected,
+  addSalonLocation,
+  acChanges, 
+  tvChanges, 
+  musicChanged, 
+  wifiChanged,
 } from '../../../actions/salonCreateForm'
-import _ from 'lodash'
+import _ from 'lodash';
+import SelectMultiple from 'react-native-select-multiple'
+const amenities = [
+    {
+        label: 'Air Conditioned', value: 'AC'
+    },
+    {
+        label: 'Television', value: 'TV'
+    },
+    {
+        label: 'Wifi', value: 'wifi',
+    },
+    {
+        label: 'Music', value: 'music'
+    }
+]
 class AddSalonExtended extends Component {
    async componentWillMount() {
       await this.props.getCity()
@@ -23,7 +44,7 @@ class AddSalonExtended extends Component {
       await this.props.getBusinessCategory()
       await console.log(this.props.category)
     }
-
+    
     onButtonPress() {
         this.props.addSalonButtonPress()
         var myHeaders = new Headers();
@@ -36,6 +57,31 @@ class AddSalonExtended extends Component {
         
         
     }
+    // rendering salon type male, female
+    $salonType = {
+        male: "Male",
+        female: "Female",
+        unisex: 'Unisex',
+        family: 'Family',
+        kids: 'Kids'
+    }
+    alertFunction = () => {
+        const {pos} = this.props;
+        JsonPos = pos.json()
+        Alert.alert(
+        'Alert Title',
+        JsonPos,
+  [
+    {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+    {
+      text: 'Cancel',
+      onPress: () => console.log('Cancel Pressed'),
+      style: 'cancel',
+    },
+    {text: 'OK', onPress: () => console.log('OK Pressed')},
+  ],
+  {cancelable: false},
+)}
     render() {
         if(this.props.isLoading) {
             return (
@@ -51,7 +97,7 @@ class AddSalonExtended extends Component {
             <View style={{flexDirection: 'row'}}>
                   <View style={{flex:1}}>
                     <Picker
-                    placeholder = "Type"
+                    placeholder = "Category"
                     placeholderStyle={{color: 'black'}}
                     mode="dropdown"
                     style={{ width: 120, borderWidth:1 }}
@@ -135,15 +181,104 @@ class AddSalonExtended extends Component {
                         </View> 
                     </View>
             </CardItem>
+            <CardItem>
+            <View style={{flex:1}}>
+                    <Picker
+                    placeholder = "Salon Type"
+                    placeholderStyle={{color: 'black'}}
+                    mode="dropdown"
+                    style={{ width: 120, borderWidth:1 }}
+                    selectedValue= {this.props.salonType}
+                    onValueChange={(value) => this.props.salonTypeSelected(value)}
+                    >
+                    {
+                        _.map(this.$salonType, (val) => {
+                            console.log(1 + val)
+                            return (
+                            <Picker.Item label={val} value={val} />
+                            )
+                        })
+                    }
+                    </Picker>
+                </View> 
+            </CardItem>
+            <CardItem>
+                <View>
+                    <Card>
+                        <CardItem>
+                            <Button transparent onPress={() => this.alertFunction()}>
+                                <Text>
+                                    Add Location
+                                </Text>
+                            </Button>
+                        </CardItem>
+                    </Card>
+                </View>
+            </CardItem>
             </View>
+
           </Card>
-          <Right>
-            <Button transparent onPress={this.onButtonPress.bind(this)}>
-              <Text>
-                Submit
-              </Text>
-            </Button>
-          </Right>
+          <Card transparent>
+                <CardItem header>
+                    <Text style={{justifyContent: 'center'}}>
+                        Amenities
+                    </Text>
+                </CardItem>
+                <CardItem >
+                <View style={{width: '100%'}}>
+                    <ListItem button onPress={() => this.props.acChanges()}>
+                            <CheckBox
+                            checked={this.props.ac}
+                            onPress={() => this.props.acChanges()}
+                            />
+                            <Body>
+                            <Text>Air Conditioned</Text>
+                            </Body>
+                    </ListItem>
+                    <ListItem button onPress={() => this.props.tvChanges()}>
+                        <CheckBox
+                            color="red"
+                            checked={this.props.tv}
+                            onPress={() => this.props.tvChanges()}
+                        />
+                        <Body>
+                            <Text>
+                                Television
+                            </Text>
+                        </Body>
+                    </ListItem>
+                    <ListItem button onPress={() => this.props.wifiChanged()}>
+                            <CheckBox
+                            color="green"
+                            checked={this.props.wifi}
+                            onPress={() => this.props.wifiChanged()}
+                            />
+                            <Body>
+                            <Text>Wifi</Text>
+                            </Body>
+                    </ListItem>
+                    <ListItem button onPress={() => this.props.musicChanged()}>
+                            <CheckBox
+                            color="#000"
+                            checked={this.props.music}
+                            onPress={() => this.props.musicChanged()}
+                            />
+                            <Body>
+                            <Text>Music</Text>
+                            </Body>
+                    </ListItem>
+                </View>
+                </CardItem>
+            </Card>
+          <View>
+            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                <Button transparent onPress={this.onButtonPress.bind(this)}>
+                <Text style={{flexDirection: 'row', justifyContent: 'center'}}>
+                    Submit
+                </Text>
+                </Button>
+            </View>
+          </View>
         </Container>
       )
     }
@@ -151,8 +286,8 @@ class AddSalonExtended extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { category, classes, cities, operatingAreas, newSalon,selectedArea, selectedCity, selectedClass, selectedCategory, isLoading} = state.createSalon
-  return { category, classes, cities, operatingAreas, newSalon,selectedArea, selectedCity, selectedClass, selectedCategory, isLoading}
+  const { category, classes, cities, operatingAreas, newSalon,selectedArea, selectedCity, selectedClass, selectedCategory, isLoading, salonType, ac, tv, wifi, music, pos} = state.createSalon
+  return { category, classes, cities, operatingAreas, newSalon,selectedArea, selectedCity, selectedClass, selectedCategory, isLoading, salonType, ac, tv, wifi, music, pos}
 }
 
-export default connect(mapStateToProps, {getCity, getAreaByCityId, getClasses, getBusinessCategory, selectSalonCategory, selectSalonCity, selectSalonClass, selectSalonOperatingArea, addingSalonToDb, addSalonButtonPress})(AddSalonExtended);
+export default connect(mapStateToProps, {musicChanged, tvChanges, wifiChanged, acChanges,getCity, getAreaByCityId, getClasses, getBusinessCategory, selectSalonCategory, selectSalonCity, selectSalonClass, selectSalonOperatingArea, addingSalonToDb, addSalonButtonPress, salonTypeSelected, addSalonLocation})(AddSalonExtended);

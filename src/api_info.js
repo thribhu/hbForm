@@ -1,6 +1,6 @@
 var myHeaders = new Headers();
 myHeaders.append('Content-Type', 'application/json');
-const API_URL = 'http://hogarbarber.plesk.europcheapflights.com/api/';
+const API_URL = 'http://hogarbarber.com/api/';
 const api =  {
     //get list of all salons
     getAllSalons(){

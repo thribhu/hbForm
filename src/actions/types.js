@@ -26,5 +26,13 @@ export const _types = {
    NEW_SALON_SAVE: 'new_salon_added',
    SALON_ADD_FAIL: 'salonAddFail',
    SALON_ADDED_SUCCESS: 'salonAddedSuccess',
-   SALON_ADD_BUTTON_PRESSED: 'salonButtonPress'
+   SALON_ADD_BUTTON_PRESSED: 'salonButtonPress',
+   SHOW_PASSWORD: 'show_password_True',
+   SALON_TYPE_SELECTED: 'salon_Type_selected',
+   ADD_SALON_LOCATION: 'add_salon_location',
+   ADD_SALON_LOCATION_FAIL: 'add_salon_location_fail',
+   AC_CHANGED: 'AcChanged',
+    TV_CHANGED: 'TvChanged',
+    MUSIC_CHANGED: 'MusicChanged',
+    WIFI_CHANGED:'WifiChanged',
 }

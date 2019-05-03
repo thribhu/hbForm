@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import {Container, Content, Card, CardItem, Body, Text, List, ListItem, Header, Icon, Input, Item, Button, Right} from 'native-base';
-import { Image, FlatList, View, ScrollView } from 'react-native';
+import { ImageBackground, FlatList, View, ScrollView } from 'react-native';
 import { Actions} from 'react-native-router-flux';
 import api from '../../../api_info';
+import {connect} from 'react-redux';
 import _ from 'lodash'
 
 class salonList extends Component {
-       
+   
     async componentWillMount() {
             let data = {}
             await _.map(this.props.salons, (val) => {
@@ -15,11 +16,12 @@ class salonList extends Component {
         }
     
     renderSalons({item}) {
+        console.log(item.ImagePath)
         return (
                 
                         <Card transparent>
                             <CardItem>
-                                <Image source={{uri: item.ImagePath}} style={{ height: 150, width: '100%', borderRadius: 12 }}/>
+                                <ImageBackground source={{uri: item.ImagePath}} style={{ height: 150, width: '100%', borderRadius: 12 }}/>
                             </CardItem>
                             <CardItem>
                                 <Text style={{fontWeight: '500', fontSize: 15, color: 'purple', paddingHorizontal: 10}}>{item.BusinessName.toUpperCase()}</Text>
@@ -55,7 +57,7 @@ class salonList extends Component {
     render()
     {
         return(
-            
+        <Container>
         <View style={{backgroundColor: 'white'}}>
         <Header searchBar rounded>
           <Item>
@@ -74,8 +76,9 @@ class salonList extends Component {
                         </Text>
                     </Button>
                     
-                    <ScrollView>
+                   
                     <View>
+                    <ScrollView>
                     <FlatList
                     style={{flex:1}}
                     data={this.props.salons}
@@ -86,13 +89,13 @@ class salonList extends Component {
                     }
                     keyExtractor = {(item, id) => item.id}
                 />
-                    </View>
                     </ScrollView>
                     </View>
                     </View>
-                    
+                    </View>
+                    </Container>     
         )
     }
 }
 
-export default salonList;
+export default connect()(salonList);

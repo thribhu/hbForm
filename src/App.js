@@ -7,6 +7,7 @@ import ReduxThunk from 'redux-thunk';
 import reducer from './reducers';
 import firebase from 'firebase';
 
+
 class App extends Component{
   componentWillMount() {
     const config = {
@@ -18,6 +19,9 @@ class App extends Component{
         messagingSenderId: '297094500650'
       };
       firebase.initializeApp(config);
+}
+componentDidMount() {
+  
 }
   render(){
     return(
