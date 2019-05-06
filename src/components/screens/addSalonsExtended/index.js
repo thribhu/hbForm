@@ -22,7 +22,8 @@ import {
   wifiChanged,
 } from '../../../actions/salonCreateForm'
 import _ from 'lodash';
-import SelectMultiple from 'react-native-select-multiple'
+import ImagePicker from 'react-native-image-picker';
+
 const amenities = [
     {
         label: 'Air Conditioned', value: 'AC'
@@ -44,6 +45,44 @@ class AddSalonExtended extends Component {
       await this.props.getBusinessCategory()
       await console.log(this.props.category)
     }
+    state = {
+        avatarSource: null
+    }
+    constructor(props) {
+        super(props)
+        this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
+    }
+    selectPhotoTapped() {
+        const options = {
+          quality: 1.0,
+          maxWidth: 500,
+          maxHeight: 500,
+          storageOptions: {
+            skipBackup: true,
+          },
+        };
+    
+        ImagePicker.showImagePicker(options, (response) => {
+          console.log('Response = ', response);
+    
+          if (response.didCancel) {
+            console.log('User cancelled photo picker');
+          } else if (response.error) {
+            console.log('ImagePicker Error: ', response.error);
+          } else if (response.customButton) {
+            console.log('User tapped custom button: ', response.customButton);
+          } else {
+            let source = { uri: response.uri };
+    
+            // You can also display the image using data:
+            // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+    
+            this.setState({
+              avatarSource: source,
+            });
+          }
+        });
+      }
     
     onButtonPress() {
         this.props.addSalonButtonPress()
@@ -65,12 +104,12 @@ class AddSalonExtended extends Component {
         family: 'Family',
         kids: 'Kids'
     }
+    lat = this.props.pos.lat
     alertFunction = () => {
-        const {pos} = this.props;
-        JsonPos = pos.json()
+        
         Alert.alert(
         'Alert Title',
-        JsonPos,
+        lat,
   [
     {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
     {
@@ -208,7 +247,7 @@ class AddSalonExtended extends Component {
                         <CardItem>
                             <Button transparent onPress={() => this.alertFunction()}>
                                 <Text>
-                                    Add Location
+                                    Add
                                 </Text>
                             </Button>
                         </CardItem>
@@ -216,7 +255,19 @@ class AddSalonExtended extends Component {
                 </View>
             </CardItem>
             </View>
-
+            <CardItem>
+                <View>
+                    <Card>
+                        <CardItem>
+                            <Button transparent onPress={() => this.alertFunction()}>
+                                <Text>
+                                    Add Location
+                                </Text>
+                            </Button>
+                        </CardItem>
+                    </Card>
+                </View>
+            </CardItem>
           </Card>
           <Card transparent>
                 <CardItem header>
